@@ -2,16 +2,7 @@ import numpy as np
 import pandas as pd
 import tensorflow as tf
 import matplotlib.pyplot as plt
-from random import randint
 
-
-asl_alphabets = {
-    0: 'A', 1: 'B', 2: 'C', 3: 'D', 4: 'E',
-    5: 'F', 6: 'G', 7: 'H', 8: 'I',
-    10: 'K', 11: 'L', 12: 'M', 13: 'N', 14: 'O',
-    15: 'P', 16: 'Q', 17: 'R', 18: 'S', 19: 'T',
-    20: 'U', 21: 'V', 22: 'W', 23: 'X', 24: 'Y'
-}
 
 def test_model(model, x_test, y_test):
     predictions = np.argmax(model.predict(x_test), axis=1)
@@ -27,21 +18,6 @@ def test_model(model, x_test, y_test):
         plt.tight_layout()
         i += 1
     plt.show()
-    # while True:
-    #     try:
-    #         rand = randint(0,len(x_test-1))
-    #         prediction = model.predict(x_test[rand][np.newaxis, ..., np.newaxis])
-    #         print(prediction)
-    #         print(np.argmax(prediction))
-    #         print(f"The sign is probably a {asl_alphabets[np.argmax(prediction)]}")
-    #         fig = plt.figure(figsize=(10,7))
-    #         plt.axis(False)
-    #         plt.title(f"I see {asl_alphabets[np.argmax(prediction)]}")
-    #         plt.imshow(x_test[rand])
-    #         plt.show()
-    #     except Exception as e:
-    #         print(f"Error reading image! Proceeding with next image, error: {e}")
-    #         break
 
 
 def load_data() -> tuple:
