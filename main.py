@@ -2,20 +2,25 @@ import numpy as np
 import pandas as pd
 import tensorflow as tf
 import matplotlib.pyplot as plt
+from keras_visualizer import visualizer
+from keras.utils.vis_utils import plot_model
+import visualkeras
+import string
 
 
-def test_model(model, x_test, y_test):
+
+def test_model(model, x_test, y_test) -> None:
+    LETTER_MAPPER = dict(zip(string.ascii_uppercase, range(0,26)))
     predictions = np.argmax(model.predict(x_test), axis=1)
+    print(len(predictions))
     for i in range(len(predictions)):
         if(predictions[i] >= 9):
             predictions[i] += 1
-    correct = np.nonzero(predictions == y_test)[0]
     i = 0
-    for c in correct[:6]:
-        plt.subplot(3, 2, i+1)
+    for c in predictions[:24]:
+        plt.subplot(6, 4, i+1)
         plt.imshow(x_test[c], cmap='gray', interpolation='none')
-        plt.title(f'Predicted class: {predictions[c]}, Actual {y_test[c]}')
-        plt.tight_layout()
+        plt.title(f'Predicted letter: {list(filter(lambda x: LETTER_MAPPER[x] == predictions[c], LETTER_MAPPER))[0]}, Actual: {list(filter(lambda x: LETTER_MAPPER[x] == y_test[c], LETTER_MAPPER))[0]}')
         i += 1
     plt.show()
 
@@ -36,6 +41,9 @@ def main() -> None:
     model.summary()
     a, b = load_data()
     test_model(model, a, b)
+    # visualizer(model=model, file_format='png', view=True)
+    # plot_model(model, to_file='model_plot.png', show_shapes=True, show_layer_names=True)
+    # visualkeras.layered_view(model, to_file='output.png').show()
 
 
 if __name__ == '__main__':
